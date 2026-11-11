@@ -79,11 +79,13 @@ CHROME_NO_SANDBOX нужен только для такой ограниченн
 | test_add_one_book | Одна книга добавляется и появляется в профиле. |
 | test_add_multiple_books | Три книги добавляются и появляются в профиле. |
 | test_add_duplicate_book | Повторное добавление отклоняется, дубль не возникает. |
-| test_add_unknown_book | Неизвестный ISBN отклоняется, профиль остаётся пустым. |\n| test_add_batch_without_authorization | Без токена добавление нескольких книг запрещено, профиль пуст. |
+| test_add_unknown_book | Неизвестный ISBN отклоняется, профиль остаётся пустым. |
+| test_add_batch_without_authorization | Без токена добавление нескольких книг запрещено, профиль пуст. |
 | test_delete_one_book | Удаляется одна книга, другая остаётся. |
 | test_delete_missing_book | Удаление отсутствующей книги возвращает HTTP 400. |
 | test_delete_multiple_books | Удаляются все три книги, профиль пустеет. |
-| test_delete_without_authorization | Без токена удаление запрещено, книга остаётся. |\n| test_delete_all_without_authorization | Без токена удаление всех книг запрещено, обе остаются. |
+| test_delete_without_authorization | Без токена удаление запрещено, книга остаётся. |
+| test_delete_all_without_authorization | Без токена удаление всех книг запрещено, обе остаются. |
 
 Каждый API-тест проверяет HTTP-статус и содержимое ответа. JSON с данными проверяется через jsonschema; для HTTP 204 проверяется пустое тело.
 
