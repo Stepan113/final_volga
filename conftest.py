@@ -7,8 +7,6 @@ import requests
 from jsonschema import validate
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.edge.options import Options as EdgeOptions
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from swagger.client import ApiClient
 from swagger.schemas import CATALOG_SCHEMA
@@ -17,11 +15,6 @@ from swagger.schemas import CATALOG_SCHEMA
 def pytest_addoption(parser):
     parser.addoption("--base-url", default=os.getenv("DEMOQA_BASE_URL", "https://demoqa.com"))
     parser.addoption("--api-base-url", default=os.getenv("DEMOQA_API_BASE_URL", "https://demoqa.com"))
-    parser.addoption(
-        "--browser",
-        choices=("chrome", "firefox", "edge"),
-        default=os.getenv("DEMOQA_BROWSER", "chrome").lower(),
-    )
     parser.addoption("--headed", action="store_true", help="Show the browser window.")
     parser.addoption("--headless", action="store_true", help="Explicitly run headless (the default).")
 
@@ -33,34 +26,18 @@ def base_url(request):
 
 @pytest.fixture
 def driver(request):
-    browser_name = request.config.getoption("--browser")
     headed = request.config.getoption("--headed")
 
-    if browser_name == "chrome":
-        options = ChromeOptions()
-        if not headed:
-            options.add_argument("--headless=new")
-        if binary := os.getenv("CHROME_BINARY"):
-            options.binary_location = binary
-        if os.getenv("CHROME_NO_SANDBOX") == "1":
-            options.add_argument("--no-sandbox")
-        if profile := os.getenv("CHROME_USER_DATA_DIR"):
-            options.add_argument(f"--user-data-dir={profile}-{uuid4().hex[:8]}")
-        browser = webdriver.Chrome(options=options)
-    elif browser_name == "firefox":
-        options = FirefoxOptions()
-        if not headed:
-            options.add_argument("-headless")
-        if binary := os.getenv("FIREFOX_BINARY"):
-            options.binary_location = binary
-        browser = webdriver.Firefox(options=options)
-    else:
-        options = EdgeOptions()
-        if not headed:
-            options.add_argument("--headless=new")
-        if binary := os.getenv("EDGE_BINARY"):
-            options.binary_location = binary
-        browser = webdriver.Edge(options=options)
+    options = ChromeOptions()
+    if not headed:
+        options.add_argument("--headless=new")
+    if binary := os.getenv("CHROME_BINARY"):
+        options.binary_location = binary
+    if os.getenv("CHROME_NO_SANDBOX") == "1":
+        options.add_argument("--no-sandbox")
+    if profile := os.getenv("CHROME_USER_DATA_DIR"):
+        options.add_argument(f"--user-data-dir={profile}-{uuid4().hex[:8]}")
+    browser = webdriver.Chrome(options=options)
 
     browser.set_window_size(1440, 1000)
     try:

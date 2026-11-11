@@ -7,7 +7,7 @@
 ## Требования и установка
 
 - Python 3.12 или новее.
-- Chrome, Firefox или Microsoft Edge для запуска UI-тестов. По умолчанию используется Chrome. Selenium Manager подбирает драйвер; при первом запуске ему может понадобиться сеть.
+- Google Chrome для запуска UI-тестов. Selenium Manager подбирает ChromeDriver; при первом запуске ему может понадобиться сеть.
 - Доступ к demoqa.com.
 - Для просмотра HTML-отчётов — отдельная команда Allure Report CLI.
 
@@ -36,25 +36,19 @@
 
 На внешнем DemoQA слишком много одновременных запросов могут замедлить тесты. Начните с двух процессов; каждый тест использует собственный аккаунт и браузер.
 
-Для запуска в другом браузере:
-
-    .venv/bin/python -m pytest -m ui --browser=firefox
-    .venv/bin/python -m pytest -m ui --browser=edge
-
-Браузер должен быть доступен на компьютере или загружен Selenium Manager. Все 15 UI-тестов проверены в Chrome, Firefox и Edge; для Firefox и Edge использовались временно загруженные копии браузеров.
+UI-тесты запускаются только в Chrome. Браузер должен быть установлен на компьютере или загружен Selenium Manager.
 
 ## Параметры окружения
 
 - DEMOQA_BASE_URL — адрес UI, по умолчанию https://demoqa.com.
 - DEMOQA_API_BASE_URL — адрес API, по умолчанию https://demoqa.com.
-- DEMOQA_BROWSER — chrome, firefox или edge; можно вместо этого передать --browser.
 - DEMOQA_UI_WAIT_SECONDS — время явного ожидания элементов, по умолчанию 20 секунд.
 - DEMOQA_API_TIMEOUT_SECONDS — таймаут HTTP-запроса, по умолчанию 15 секунд.
-- CHROME_BINARY, FIREFOX_BINARY, EDGE_BINARY — путь к исполняемому файлу браузера, если Selenium Manager не находит его автоматически.
+- CHROME_BINARY — путь к исполняемому файлу Chrome, если Selenium Manager не находит его автоматически.
 
 Параметры --base-url и --api-base-url переопределяют адреса для одного запуска. Например:
 
-    DEMOQA_BASE_URL=https://demoqa.com .venv/bin/python -m pytest -m ui --browser=chrome
+    DEMOQA_BASE_URL=https://demoqa.com .venv/bin/python -m pytest -m ui
 
 В ограниченном контейнере, где домашний каталог недоступен для записи, проверенный запуск Chrome выглядит так:
 
